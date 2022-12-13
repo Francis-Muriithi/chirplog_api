@@ -3,39 +3,39 @@ class BirdsController < ApplicationController
 
   # GET /birds
   def index
-    @birds = Bird.all
+    birds = Bird.all
 
-    render json: @birds
+    render json: birds
   end
 
   # GET /birds/1
   def show
-    render json: @bird
+    render json: bird
   end
 
   # POST /birds
-  def create
-    @bird = Bird.new(bird_params)
-
-    if @bird.save
-      render json: @bird, status: :created, location: @bird
-    else
-      render json: @bird.errors, status: :unprocessable_entity
+  def create 
+    bird = Bird.new(bird_params)
+    if bird.save 
+        render json: bird
+    else 
+        render json: {errors: bird.errors.messages}, status: 422
     end
-  end
+end
 
   # PATCH/PUT /birds/1
-  def update
-    if @bird.update(bird_params)
-      render json: @bird
-    else
-      render json: @bird.errors, status: :unprocessable_entity
+  def update 
+    bird = bird.find_by(id: params[:id])
+    if bird.update(adventure_params)
+        render json: bird
+    else 
+        render json: {errors: bird.errors.messages}, status: 422
     end
-  end
+end
 
   # DELETE /birds/1
   def destroy
-    @bird.destroy
+    bird.destroy
   end
 
   private
